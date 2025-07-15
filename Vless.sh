@@ -1,9 +1,12 @@
 #!/bin/sh
 
-mkdir -p /usr/share/nftables.d/chain-pre/mangle_postrouting/
+iptables -t mangle -D POSTROUTING -o br-lan -j TTL --ttl-set 65 2>/dev/null
+iptables -t mangle -A POSTROUTING -o br-lan -j TTL --ttl-set 65
 
-echo "ip ttl set 65" > /usr/share/nftables.d/chain-pre/mangle_postrouting/01-set-ttl.nft
 
-fw4 reload
+if ! grep -q "TTL --ttl-set 65" /etc/rc.local; then
+  sed -i '/exit 0/i iptables -t mangle -A POSTROUTING -o br-lan -j TTL --ttl-set 65' /etc/rc.local
+fi
+
 
 rm -- "$0"
