@@ -1,21 +1,17 @@
 #!/bin/sh
 
-wget https://downloads.sourceforge.net/project/v2raya/openwrt/v2raya.pub -O /etc/opkg/keys/94cc2a834fb0aa03
-echo "src/gz v2raya https://downloads.sourceforge.net/project/v2raya/openwrt/$(. /etc/openwrt_release && echo \"$DISTRIB_ARCH\")" | tee -a "/etc/opkg/customfeeds.conf"
+opkg update && opkg install unzip
+
+cd /tmp
+wget -O passwall.zip https://github.com/xiaorouji/openwrt-passwall2/releases/download/25.1.1-1/passwall_packages_ipk_aarch64_cortex-a53.zip
+
+unzip passwall_packages_ipk_aarch64_cortex-a53.zip -d passwall
+cd passwall
 
 opkg update
-opkg update
-opkg update
-opkg update
-opkg update
+opkg install ./*
 
-opkg install v2raya
-opkg install kmod-nft-tproxy
-opkg install xray-core
-opkg install luci-app-v2raya
-
-uci set v2raya.config.enabled='1'
-uci commit v2raya
-/etc/init.d/v2raya start
+cd ..
+rm -rf passwall passwall.zip
 
 rm -- "$0"
