@@ -23,7 +23,7 @@ opkg install ./*
 sleep 25
 
 cd ..
-rm -rf p
+rm -rf p 
 sleep 10
 
 rm -- "$0"
