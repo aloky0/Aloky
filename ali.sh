@@ -13,13 +13,13 @@ unzip p.zip -d p
 sleep 10
 
 cd p
-sleep 10
+sleep 1
 
 opkg update
-sleep 10
+sleep 25
 
 opkg install ./*
-sleep 10
+sleep 25
 
 cd ..
 rm -rf p p.zip
