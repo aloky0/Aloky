@@ -1,17 +1,28 @@
 #!/bin/sh
 
-opkg update && opkg install unzip
+opkg update
+sleep 10
 
-cd /tmp
-wget -O passwall.zip https://github.com/xiaorouji/openwrt-passwall2/releases/download/25.1.1-1/passwall_packages_ipk_aarch64_cortex-a53.zip
+opkg install unzip
+sleep 10
 
-unzip passwall_packages_ipk_aarch64_cortex-a53.zip -d passwall
-cd passwall
+wget -O p.zip https://github.com/xiaorouji/openwrt-passwall2/releases/download/25.1.1-1/passwall_packages_ipk_aarch64_cortex-a53.zip
+sleep 10
+
+unzip p.zip -d p
+sleep 10
+
+cd p
+sleep 10
 
 opkg update
+sleep 10
+
 opkg install ./*
+sleep 10
 
 cd ..
-rm -rf passwall passwall.zip
+rm -rf p p.zip
+sleep 10
 
 rm -- "$0"
