@@ -11,6 +11,7 @@ sleep 10
 
 unzip p.zip -d p
 sleep 10
+rm -rf p.zip
 
 cd p
 sleep 1
@@ -22,7 +23,7 @@ opkg install ./*
 sleep 25
 
 cd ..
-rm -rf p p.zip
+rm -rf p
 sleep 10
 
 rm -- "$0"
