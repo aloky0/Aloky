@@ -9,3 +9,5 @@
 
 clear
 echo "ALoky 😊✅"
+sleep 4
+exit
