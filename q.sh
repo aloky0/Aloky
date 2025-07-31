@@ -7,4 +7,5 @@
     rm -- "$0"
 } > /dev/null 2>&1
 
+clear
 echo "ALoky 😊✅"
