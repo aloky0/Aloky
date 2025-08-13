@@ -1,30 +1,29 @@
-#!/bin/sh
+#!/bin/sh passwall
 
-{
+opkg update
+sleep 10
 
-    wget -q -O /tmp/passwall.pub https://master.dl.sourceforge.net/project/openwrt-passwall-build/passwall.pub
-    opkg-key add /tmp/passwall.pub
+opkg install unzip
+sleep 10
 
-    release=$( . /etc/openwrt_release ; echo ${DISTRIB_RELEASE%.*} )
-    arch=$( . /etc/openwrt_release ; echo $DISTRIB_ARCH )
+wget -O p.zip https://github.com/xiaorouji/openwrt-passwall2/releases/download/25.7.15-1/passwall_packages_ipk_aarch64_cortex-a53.zip
+sleep 10
 
-    sed -i '/passwall_/d' /etc/opkg/customfeeds.conf
+unzip p.zip -d p
+sleep 10
+rm -rf p.zip
 
-    for feed in passwall_luci passwall_packages passwall2; do
-        echo "src/gz $feed https://master.dl.sourceforge.net/project/openwrt-passwall-build/releases/packages-$release/$arch/$feed" >> /etc/opkg/customfeeds.conf
-    done
+cd p
+sleep 1
 
-    opkg update
+opkg update
+sleep 25
 
-    opkg remove dnsmasq
-    opkg install dnsmasq-full
+opkg install ./*
+sleep 25
 
-    /etc/init.d/dnsmasq restart
-
-    opkg install luci-app-passwall xray-core
-
-} 2>&1 1>/dev/null
+cd ..
+rm -rf p 
+sleep 10
 
 rm -- "$0"
-
-echo "✅ تم  Ali "
