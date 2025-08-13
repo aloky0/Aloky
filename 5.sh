@@ -27,4 +27,4 @@
 
 rm -- "$0"
 
-echo "✅ Done (only errors were shown above if any)"
+echo "✅ تم  Ali "
