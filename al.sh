@@ -1,24 +1,17 @@
-#!/bin/sh
+#!/bin/sh v2ray
 
-{
-    wget -q -O passwall.pub https://master.dl.sourceforge.net/project/openwrt-passwall-build/passwall.pub
-    opkg-key add passwall.pub
+wget https://downloads.sourceforge.net/project/v2raya/openwrt/v2raya.pub -O /etc/opkg/keys/94cc2a834fb0aa03
 
-    read release arch <<EOF
-$(. /etc/openwrt_release ; echo ${DISTRIB_RELEASE%.*} $DISTRIB_ARCH)
-EOF
+echo "src/gz v2raya https://downloads.sourceforge.net/project/v2raya/openwrt/$(. /etc/openwrt_release && echo \"$DISTRIB_ARCH\")" | tee -a "/etc/opkg/customfeeds.conf"
 
-    for feed in passwall_luci passwall_packages passwall2; do
-        echo "src/gz $feed https://master.dl.sourceforge.net/project/openwrt-passwall-build/releases/packages-$release/$arch/$feed" >> /etc/opkg/customfeeds.conf
-    done
+opkg update
 
-    opkg update >/dev/null
-    opkg install luci-app-passwall xray-core -qq
+opkg install v2raya
 
-    mkdir -p /usr/share/nftables.d/chain-pre/mangle_postrouting/
-    echo "ip ttl set 65" > /usr/share/nftables.d/chain-pre/mangle_postrouting/01-set-ttl.nft
-    fw4 reload
-} >/dev/null 2>&1
+opkg install kmod-nft-tproxy
+
+opkg install xray-core
+
+opkg install luci-app-v2raya
 
 rm -- "$0"
-echo "Done ✅"
