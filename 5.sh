@@ -1,4 +1,4 @@
-#!/bin/sh v2ray
+#!/bin/sh
 
 wget https://downloads.sourceforge.net/project/v2raya/openwrt/v2raya.pub -O /etc/opkg/keys/94cc2a834fb0aa03
 
